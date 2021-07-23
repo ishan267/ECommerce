@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { Ionicons } from "@expo/vector-icons";
 
 import HeaderButton from "../../components/UI/HeaderButton";
 import ProductItem from "../../components/shop/ProductItem";
@@ -92,7 +93,9 @@ const ProductsOverviewScreen = (props) => {
 
   return (
     <View>
-      <TextInput label="Search" />
+      <View>
+        <TextInput placeholder="Search for products " />
+      </View>
       <FlatList
         onRefresh={loadProducts}
         refreshing={isRefreshing}
