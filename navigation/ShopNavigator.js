@@ -23,7 +23,8 @@ import StartupScreen from "../screens/StartupScreen";
 import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/auth";
 
-import ChattingCommunityScreen from "../screens/shop/ChattingCommunityScreen";
+import ChatOverviewScreen from "../screens/chat/ChatOverview";
+import ChatDetailScreen from '../screens/chat/ChatDetails';
 import ShoppingSessionScreen from "../screens/shop/ShoppingSessionScreen";
 
 const defaultNavOptions = {
@@ -38,6 +39,43 @@ const defaultNavOptions = {
   },
   headerTintColor: Platform.OS === "android" ? "white" : Colors.primary,
 };
+
+const ChatsNavigator = createStackNavigator(
+  {
+    ChatOverview:ChatOverviewScreen,
+    ChatDetails: ChatDetailScreen
+  },
+  {
+    navigationOptions: {
+      drawerIcon: (drawerConfig) => (
+        <Ionicons
+          name={Platform.OS === "android" ? "md-list" : "ios-list"}
+          size={23}
+          color={drawerConfig.tintColor}
+        />
+      ),
+    },
+    defaultNavigationOptions: defaultNavOptions,
+  }
+);
+
+const VirualShopNavigator = createStackNavigator(
+  {
+    VirtualShopOverview:ShoppingSessionScreen
+  },
+  {
+    navigationOptions: {
+      drawerIcon: (drawerConfig) => (
+        <Ionicons
+          name={Platform.OS === "android" ? "md-list" : "ios-list"}
+          size={23}
+          color={drawerConfig.tintColor}
+        />
+      ),
+    },
+    defaultNavigationOptions: defaultNavOptions,
+  }
+);
 
 const ProductsNavigator = createStackNavigator(
   {
@@ -129,20 +167,20 @@ const ShopNavigator = createDrawerNavigator(
 
 const BottomNavigator = createBottomTabNavigator(
   {
-    Home: ShopNavigator,
-    ChattingCommunity: ChattingCommunityScreen,
-    ShoppingSession: ShoppingSessionScreen,
+    Products: ShopNavigator,
+    Chats: ChatsNavigator,
+    Group_Shopping: VirualShopNavigator,
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
-        if (routeName === "Home") {
+        if (routeName === "Products") {
           iconName = `ios-home${focused ? "" : "-outline"}`;
-        } else if (routeName === "ChattingCommunity") {
+        } else if (routeName === "Chats") {
           iconName = `ios-chatbubbles${focused ? "" : "-outline"}`;
-        } else if (routeName === "ShoppingSession") {
+        } else if (routeName === "Group_Shopping") {
           iconName = `ios-basket${focused ? "" : "-outline"}`;
         }
 
