@@ -94,7 +94,10 @@ const ProductsOverviewScreen = (props) => {
   return (
     <View>
       <View>
-        <TextInput placeholder="Search for products " />
+        <TextInput
+          style={styles.searchBar}
+          placeholder="Search for products "
+        />
       </View>
       <FlatList
         onRefresh={loadProducts}
@@ -161,6 +164,10 @@ ProductsOverviewScreen.navigationOptions = (navData) => {
 
 const styles = StyleSheet.create({
   centered: { flex: 1, justifyContent: "center", alignItems: "center" },
+  searchBar: {
+    height: 45,
+    padding: 10,
+  },
 });
 
 export default ProductsOverviewScreen;
