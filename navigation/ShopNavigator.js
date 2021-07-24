@@ -24,8 +24,9 @@ import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/auth";
 
 import ChatOverviewScreen from "../screens/chat/ChatOverview";
-import ChatDetailScreen from '../screens/chat/ChatDetails';
+import ChatDetailScreen from "../screens/chat/ChatDetails";
 import ShoppingSessionScreen from "../screens/shop/ShoppingSessionScreen";
+import NewSessionScreen from "../screens/ShoppingSession/NewSessionScreen";
 
 const defaultNavOptions = {
   headerStyle: {
@@ -42,8 +43,8 @@ const defaultNavOptions = {
 
 const ChatsNavigator = createStackNavigator(
   {
-    ChatOverview:ChatOverviewScreen,
-    ChatDetails: ChatDetailScreen
+    ChatOverview: ChatOverviewScreen,
+    ChatDetails: ChatDetailScreen,
   },
   {
     navigationOptions: {
@@ -59,9 +60,9 @@ const ChatsNavigator = createStackNavigator(
   }
 );
 
-const VirualShopNavigator = createStackNavigator(
+const VirtualShopNavigator = createStackNavigator(
   {
-    VirtualShopOverview:ShoppingSessionScreen
+    VirtualShopOverview: ShoppingSessionScreen,
   },
   {
     navigationOptions: {
@@ -74,6 +75,46 @@ const VirualShopNavigator = createStackNavigator(
       ),
     },
     defaultNavigationOptions: defaultNavOptions,
+  }
+);
+
+const NewsessionNavigator = createStackNavigator(
+  {
+    NewSessionOverview: NewSessionScreen,
+  },
+  {
+    navigationOptions: {
+      drawerIcon: (drawerConfig) => (
+        <Ionicons
+          name={Platform.OS === "android" ? "md-list" : "ios-list"}
+          size={23}
+          color={drawerConfig.tintColor}
+        />
+      ),
+    },
+    defaultNavigationOptions: defaultNavOptions,
+  }
+);
+
+const SessionNavigator = createDrawerNavigator(
+  {
+    AllSessions: VirtualShopNavigator,
+    NewSession: NewsessionNavigator,
+  },
+  {
+    contentOptions: {
+      activeTintColor: Colors.primary,
+    },
+    contentComponent: (props) => {
+      //const dispatch = useDispatch();
+      return (
+        <View style={{ flex: 1, paddingTop: 30 }}>
+          <SafeAreaView forceInset={{ top: "always", horizontal: "never" }}>
+            <DrawerNavigatorItems {...props} />
+          </SafeAreaView>
+        </View>
+      );
+    },
   }
 );
 
@@ -169,7 +210,7 @@ const BottomNavigator = createBottomTabNavigator(
   {
     Products: ShopNavigator,
     Chats: ChatsNavigator,
-    Group_Shopping: VirualShopNavigator,
+    Group_Shopping: SessionNavigator,
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({

@@ -7,6 +7,7 @@ import {db,auth} from '../../firebase';
 
 const ChatDetailScreen = () => {
   const [messages, setMessages] = useState([]);
+  //const [messageRef, setMessageRef] = useState(db.ref('/messages'));
 
   useEffect(() => {
     setMessages([
@@ -36,12 +37,7 @@ const ChatDetailScreen = () => {
   const onSend = useCallback((messages = []) => {
     setMessages((previousMessages) => GiftedChat.append(previousMessages, messages));
     const {_id, createdAt, text, user} = messages[0];
-    db.collection('chats').add({
-        _id,
-        createdAt,
-        text,
-        user
-    })
+    //messageRef.push({from: user, message: text});
   }, []);
 
   const renderSend = (props) => {

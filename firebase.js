@@ -23,5 +23,4 @@ if(firebase.apps.length === 0){
 
 const db = app.firestore();
 const auth = firebase.auth();
-const chatsRef = db.collection('chats');
-export {db,auth,chatsRef};
+export {db,auth};

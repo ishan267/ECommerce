@@ -12,6 +12,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Ionicons } from "@expo/vector-icons";
+import { SearchBar } from "react-native-elements";
 
 import HeaderButton from "../../components/UI/HeaderButton";
 import ProductItem from "../../components/shop/ProductItem";
@@ -93,12 +94,12 @@ const ProductsOverviewScreen = (props) => {
 
   return (
     <View>
-      <View>
-        <TextInput
-          style={styles.searchBar}
-          placeholder="Search for products "
-        />
-      </View>
+      <SearchBar
+        placeholder="Search for products"
+        lightTheme="true"
+        // onChangeText={this.updateSearch}
+        // value={search}
+      />
       <FlatList
         onRefresh={loadProducts}
         refreshing={isRefreshing}
