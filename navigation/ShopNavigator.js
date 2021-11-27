@@ -4,8 +4,6 @@ import {
   createDrawerNavigator,
   DrawerNavigatorItems,
 } from "react-navigation-drawer";
-import { createBottomTabNavigator } from "react-navigation-tabs";
-
 import { createSwitchNavigator, createAppContainer } from "react-navigation";
 
 import { Platform, SafeAreaView, Button, View } from "react-native";
@@ -23,11 +21,6 @@ import StartupScreen from "../screens/StartupScreen";
 import Colors from "../constants/Colors";
 import * as authActions from "../store/actions/auth";
 
-import ChatOverviewScreen from "../screens/chat/ChatOverview";
-import ChatDetailScreen from "../screens/chat/ChatDetails";
-import ShoppingSessionScreen from "../screens/shop/ShoppingSessionScreen";
-import NewSessionScreen from "../screens/ShoppingSession/NewSessionScreen";
-
 const defaultNavOptions = {
   headerStyle: {
     backgroundColor: Platform.OS === "android" ? Colors.primary : "",
@@ -41,82 +34,6 @@ const defaultNavOptions = {
   headerTintColor: Platform.OS === "android" ? "white" : Colors.primary,
 };
 
-const ChatsNavigator = createStackNavigator(
-  {
-    ChatOverview: ChatOverviewScreen,
-    ChatDetails: ChatDetailScreen,
-  },
-  {
-    navigationOptions: {
-      drawerIcon: (drawerConfig) => (
-        <Ionicons
-          name={Platform.OS === "android" ? "md-list" : "ios-list"}
-          size={23}
-          color={drawerConfig.tintColor}
-        />
-      ),
-    },
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
-
-const VirtualShopNavigator = createStackNavigator(
-  {
-    VirtualShopOverview: ShoppingSessionScreen,
-  },
-  {
-    navigationOptions: {
-      drawerIcon: (drawerConfig) => (
-        <Ionicons
-          name={Platform.OS === "android" ? "md-list" : "ios-list"}
-          size={23}
-          color={drawerConfig.tintColor}
-        />
-      ),
-    },
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
-
-const NewsessionNavigator = createStackNavigator(
-  {
-    NewSessionOverview: NewSessionScreen,
-  },
-  {
-    navigationOptions: {
-      drawerIcon: (drawerConfig) => (
-        <Ionicons
-          name={Platform.OS === "android" ? "md-list" : "ios-list"}
-          size={23}
-          color={drawerConfig.tintColor}
-        />
-      ),
-    },
-    defaultNavigationOptions: defaultNavOptions,
-  }
-);
-
-const SessionNavigator = createDrawerNavigator(
-  {
-    AllSessions: VirtualShopNavigator,
-    NewSession: NewsessionNavigator,
-  },
-  {
-    contentOptions: {
-      activeTintColor: Colors.primary,
-    },
-    contentComponent: (props) => {
-      //const dispatch = useDispatch();
-      return (
-        <View style={{ flex: 1, paddingTop: 30 }}>
-          <SafeAreaView forceInset={{ top: "always", horizontal: "never" }}>
-            <DrawerNavigatorItems {...props} />
-          </SafeAreaView>
-        </View>
-      );
-    },
-  }
-);
 
 const ProductsNavigator = createStackNavigator(
   {
@@ -206,49 +123,18 @@ const ShopNavigator = createDrawerNavigator(
   }
 );
 
-const BottomNavigator = createBottomTabNavigator(
+const AuthNavigator = createStackNavigator(
   {
-    Products: ShopNavigator,
-    Chats: ChatsNavigator,
-    Group_Shopping: SessionNavigator,
+    Auth: AuthScreen
   },
   {
-    defaultNavigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        if (routeName === "Products") {
-          iconName = `ios-home${focused ? "" : "-outline"}`;
-        } else if (routeName === "Chats") {
-          iconName = `ios-chatbubbles${focused ? "" : "-outline"}`;
-        } else if (routeName === "Group_Shopping") {
-          iconName = `ios-basket${focused ? "" : "-outline"}`;
-        }
-
-        // You can return any component that you like here! We usually use an
-        // icon component from react-native-vector-icons
-        return <Ionicons name={iconName} size={25} color={tintColor} />;
-      },
-    }),
-    tabBarOptions: {
-      activeTintColor: Colors.primary,
-      inactiveTintColor: "black",
-    },
+    defaultNavigationOptions: defaultNavOptions
   }
 );
 
-// const AuthNavigator = createStackNavigator(
-//   {
-//     Auth: AuthScreen
-//   },
-//   {
-//     defaultNavigationOptions: defaultNavOptions
-//   }
-// );
-
 const MainNavigator = createSwitchNavigator({
-  // Startup: StartupScreen,
-  //Auth: AuthNavigator,
-  Shop: BottomNavigator,
+  Startup: StartupScreen,
+  Auth: AuthNavigator,
+  Shop: ShopNavigator,
 });
 export default createAppContainer(MainNavigator);
